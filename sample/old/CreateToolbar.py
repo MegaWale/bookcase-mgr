@@ -1,4 +1,6 @@
 import wx
+from wx.py.shell import ShellFrame
+from wx.py.filling import FillingFrame
 
 
 
@@ -25,7 +27,29 @@ class ToolbarFrame(wx.Frame):
         menu2.AppendSeparator()
         menu2.Append(wx.NewId(), "&Options...", "Display options")
         menubar.Append(menu2, "&Edit")
+
+        menu3 = wx.Menu()
+        shell = menu3.Append(-1, "&wxPython shell", "Open wxPython shell frame")
+        filling = menu3.Append(-1, "&Namespace viewer", "Open namespaces viewer frame")
+        menubar.Append(menu3, "&Debug!!!")
+        self.Bind(wx.EVT_MENU, self.OnShell, shell)
+        self.Bind(wx.EVT_MENU, self.OnFilling, filling)
+
         self.SetMenuBar(menubar)
+
+    def OnCloseMe(self, event):
+        self.Close(True)
+
+    def OnCloseWindow(self, event):
+        self.Destroy()
+
+    def OnShell(self, event):
+        frame = ShellFrame(parent=self)
+        frame.Show()
+
+    def OnFilling(self, event):
+        frame = FillingFrame(parent=self)
+        frame.Show()
 
 if __name__ == '__main__':
     app = wx.PySimpleApp()
