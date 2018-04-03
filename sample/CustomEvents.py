@@ -16,7 +16,7 @@ class TwoButtonEvent(wx.PyCommandEvent):
 
     
 myEVT_TWO_BUTTON = wx.NewEventType()
-EVT_TWO_BUTTON = wx.PyEventBinder(myEVT_TWO_BUTTON)
+EVT_TWO_BUTTON = wx.PyEventBinder(myEVT_TWO_BUTTON, 1)
     
 
 class TwoButtonPanel(wx.Panel):
@@ -28,7 +28,7 @@ class TwoButtonPanel(wx.Panel):
         self.rightButton = wx.Button(self, label=rightText, pos=(100,0))
         
         self.leftClick = False
-        self.rigthClick = False
+        self.rightClick = False
         self.clickCount = 0
         self.leftButton.Bind(wx.EVT_LEFT_DOWN, self.OnLeftClick)
         self.rightButton.Bind(wx.EVT_LEFT_DOWN, self.OnRightClick)
@@ -39,15 +39,15 @@ class TwoButtonPanel(wx.Panel):
         event.Skip()
 
     def OnRightClick(self, event):
-        self.rigthClick = True
+        self.rightClick = True
         self.OnClick()
         event.Skip()
 
     def OnClick(self):
         self.clickCount += 1
-        if self.leftClick and self.rigthClick:
+        if self.leftClick and self.rightClick:
             self.leftClick = False
-            self.rigthClick = False
+            self.rightClick = False
             evt = TwoButtonEvent(myEVT_TWO_BUTTON, self.GetId())
             evt.SetClickCount(self.clickCount)
             self.GetEventHandler().ProcessEvent(evt)
